@@ -1,0 +1,396 @@
+table 'Price and Demand QLD'
+	lineageTag: eafcf10f-9b13-40b1-b07c-051a5244d69a
+
+	measure 'Total RRP' = SUM('Price and Demand QLD'[RRP])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: e458f93e-fd96-400a-8141-b0c2532fc7c4
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Total States' = DISTINCTCOUNT('Price and Demand QLD'[State])
+		formatString: 0
+		lineageTag: a0bf2690-8639-4f5d-ac30-c1150fd31b6b
+
+	measure 'Total Demand QLD' = SUM('Price and Demand QLD'[Total Demand])
+		lineageTag: 80c046b5-3a16-4c37-bef7-fe8b6707dddc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Average RRP' = AVERAGE('Price and Demand QLD'[RRP])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 9251032f-ef35-4ef8-bcbf-dbf2ddfd53aa
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Peak Demand' = MAX('Price and Demand QLD'[Total Demand])
+		lineageTag: 839a3e5d-9889-4ad5-9e55-af4e009f0692
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Volume Weighted Average Price' =
+			
+			DIVIDE(
+			    SUMX('Price and Demand QLD', [RRP] * [Total Demand]),
+			    [Total Demand QLD]
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 1131c8d8-da04-4e32-92ff-253e6a14a069
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Price (RRP) Volatility' = STDEV.P('Price and Demand QLD'[RRP])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 727f149b-1014-4a0e-8771-f0f4ce2d1a89
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'RRP CV' = DIVIDE([Price (RRP) Volatility], [Average RRP])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 22801cb1-47c9-4ec4-af2b-80a1dabc0943
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Load Factor' =
+			
+			DIVIDE(
+			    [Total Demand QLD],
+			    [Peak Demand] * COUNTROWS('Price and Demand QLD')
+			)
+		lineageTag: 4842735c-f15c-4221-9bd5-d5e4c3bcce6f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Negative Prices' =
+			
+			DIVIDE(
+			    CALCULATE(COUNTROWS('Price and Demand QLD'), 'Price and Demand QLD'[RRP] < 0),
+			    COUNTROWS('Price and Demand QLD')
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 4d88b140-cb7f-4ab2-90c5-11a05cd68f77
+
+	measure VWAP =
+			
+			DIVIDE(
+			    SUMX('Price and Demand QLD', [RRP] * [Total Demand]),
+			    [Total Demand QLD])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 3422e007-7d67-46f2-a369-298f5371e8e7
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'High Price Intervals' =
+			
+			CALCULATE(
+			    COUNTROWS('Price and Demand QLD'),
+			    'Price and Demand QLD'[RRP] > 300
+			)
+		formatString: 0
+		lineageTag: bf995398-7711-4538-be89-8db93348d8a5
+
+	measure '% High Price Intervals' =
+			
+			DIVIDE([High Price Intervals], COUNTROWS('Price and Demand QLD'))
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: dce78a3d-1421-4ce2-ad61-a1c8cfad4973
+
+	measure 'Extreme Price Intervals' =
+			
+			CALCULATE(
+			    COUNTROWS('Price and Demand QLD'),
+			    'Price and Demand QLD'[RRP] > 1000
+			)
+		formatString: 0
+		lineageTag: f3b0555d-7ff4-4c1f-8ea0-9c8673304645
+
+	measure 'Negative Price Intervals' =
+			
+			CALCULATE(
+			    COUNTROWS('Price and Demand QLD'),
+			    'Price and Demand QLD'[RRP] < 0
+			)
+		formatString: 0
+		lineageTag: 760b90fb-974c-4498-a657-48d5a208efb9
+
+	measure '% Negative Price Intervals' =
+			
+			DIVIDE([Negative Price Intervals], COUNTROWS('Price and Demand QLD'))
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: ca09242c-fda9-45da-966c-8ebea75183a8
+
+	measure 'Min Demand' = MIN('Price and Demand QLD'[Total Demand])
+		lineageTag: a3009a3e-272a-4f79-a57b-d649c5e423d0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Demand Range' = [Peak Demand] - [Min Demand]
+		lineageTag: 9711ad10-bacd-44f6-8d2b-8d92119908e6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Average Demand' = AVERAGE('Price and Demand QLD'[Total Demand])
+		lineageTag: 688d0f76-5c3f-426c-99e7-1f0f98f02308
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Peak to Average Ratio' = DIVIDE([Peak Demand], [Average Demand])
+		lineageTag: 821816d7-f6f0-4e47-bed0-61efafe5758d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'High Price Volume' =
+			
+			CALCULATE(
+			    [Total Demand QLD],
+			    'Price and Demand QLD'[RRP] > 300)
+		lineageTag: 98c1aa70-b9cd-4ef9-b0a2-70b35d4e6ab8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Demand in High Price' =
+			
+			DIVIDE([High Price Volume], [Total Demand QLD])
+		lineageTag: e792a4d9-12d0-4314-9b57-8a054dd95fb3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'High Price Value' =
+			
+			CALCULATE(
+			    SUMX('Price and Demand QLD', [RRP] * [Total Demand]),
+			    'Price and Demand QLD'[RRP] > 300
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 24d268a8-4750-4794-8b72-2a2240d3dd46
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Average RRP Daytime' =
+			
+			CALCULATE(
+			    [Average RRP],
+			    'Price and Demand QLD'[Hour] >= 10 &&
+			    'Price and Demand QLD'[Hour] <= 15
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: fbd5bf91-a64b-4cce-9e7e-bf4c0319e697
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Average RRP Evening Peak' =
+			
+			CALCULATE(
+			    [Average RRP],
+			    'Price and Demand QLD'[Hour] >= 17 &&
+			    'Price and Demand QLD'[Hour] <= 20
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: baa90252-685b-4c12-bc8c-2cee1242c435
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Max RRP' = MAX('Price and Demand QLD'[RRP])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 869ab451-2114-42d9-9a05-f82dd6823ee2
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Total Demand'
+		dataType: double
+		lineageTag: ee105812-7b5b-4390-97b4-1b1260dadbe2
+		summarizeBy: sum
+		sourceColumn: Total Demand
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RRP
+		dataType: double
+		lineageTag: cbf6e48c-b98a-446e-9ddd-e461f97bea73
+		summarizeBy: sum
+		sourceColumn: RRP
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PERIODTYPE
+		dataType: string
+		lineageTag: 1ef2d172-116b-4e66-936d-f49ce49d5966
+		summarizeBy: none
+		sourceColumn: PERIODTYPE
+
+		annotation SummarizationSetBy = Automatic
+
+	column State
+		dataType: string
+		lineageTag: ef9d35b2-5c6a-43d7-a137-4cf1ddcfd2bd
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Settlement  Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c4298d31-3119-4f19-8d66-3140b956d6f0
+		summarizeBy: none
+		sourceColumn: Settlement  Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Settlement Time'
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: 04cba508-0aab-4998-a83d-66b902af2f9f
+		summarizeBy: none
+		sourceColumn: Settlement Time
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column 'Settlement  Date - Copy'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 222e099a-d3fd-464c-8e53-e1203b2fbea5
+		summarizeBy: none
+		sourceColumn: Settlement  Date - Copy
+
+		variation Variation
+			isDefault
+			relationship: bcf2a07e-e279-4f3d-a684-b6984f3744df
+			defaultHierarchy: LocalDateTable_482ddc94-31f0-4b7e-883f-654e7f61c9a7.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Settlement Year'
+		dataType: string
+		lineageTag: f2c9a03e-50aa-4721-8fee-d860510ef09b
+		summarizeBy: none
+		sourceColumn: Settlement Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Settlement Month'
+		dataType: string
+		lineageTag: 34e8e874-8a2a-4377-8a97-1fbd8f841a97
+		summarizeBy: none
+		sourceColumn: Settlement Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 95ed9a3e-5779-4510-9649-64ba4e4b281f
+		summarizeBy: none
+		sourceColumn: Month Number
+
+		annotation SummarizationSetBy = User
+
+	column Hour =
+			
+			VAR TimeText = 'Price and Demand QLD'[Settlement Time]
+			VAR TimeValue = TIMEVALUE(TimeText)
+			RETURN HOUR(TimeValue)
+		formatString: 0
+		lineageTag: 91376b23-bb20-4446-92d3-57da354e9d4f
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hour Ending' =
+			
+			FORMAT(
+			    TIME('Price and Demand QLD'[Hour], 0, 0),
+			    "HH:00"
+			)
+		lineageTag: d6dae50a-f2c7-45e9-916c-e2438a2bba1d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Custom
+		dataType: string
+		lineageTag: 92f25f62-c1a3-4748-b7dd-0a0585b499bf
+		summarizeBy: none
+		sourceColumn: Custom
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Time of Day'
+		dataType: int64
+		formatString: 0
+		lineageTag: b12a51df-7a33-4e2a-bc67-2f3cf29b6cc0
+		summarizeBy: sum
+		sourceColumn: Time of Day
+
+		annotation SummarizationSetBy = Automatic
+
+	column AM/PM
+		dataType: string
+		lineageTag: 9e43f6da-a6b0-4ef0-a2cf-4ea43e1d2c14
+		summarizeBy: none
+		sourceColumn: AM/PM
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Time 2'
+		dataType: string
+		lineageTag: 7af1d6f7-bd6b-4b19-bc66-19068260db1c
+		summarizeBy: none
+		sourceColumn: Time 2
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Price and Demand QLD' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("NICSLAPTOP"),
+				    Energy_Market_Intelligence = Source{[Name="Energy_Market_Intelligence"]}[Data],
+				    dbo_PRICE_AND_DEMAND_QLD1_Full = Energy_Market_Intelligence{[Schema="dbo",Item="PRICE_AND_DEMAND_QLD1_Full"]}[Data],
+				    #"Renamed Columns" = Table.RenameColumns(dbo_PRICE_AND_DEMAND_QLD1_Full,{{"TOTALDEMAND", "Total Demand"}, {"SETTLEMENTDATE", "Settlement  Date"}}),
+				    #"Added Custom" = Table.AddColumn(#"Renamed Columns", "State", each "QLD"),
+				    #"Removed Columns" = Table.RemoveColumns(#"Added Custom",{"REGION"}),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Removed Columns", "Settlement  Date", "Settlement  Date - Copy"),
+				    #"Split Column by Delimiter" = Table.SplitColumn(Table.TransformColumnTypes(#"Duplicated Column", {{"Settlement  Date", type text}}, "en-AU"), "Settlement  Date", Splitter.SplitTextByDelimiter(" ", QuoteStyle.Csv), {"Settlement  Date.1", "Settlement  Date.2", "Settlement  Date.3"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"Settlement  Date.1", type date}, {"Settlement  Date.2", type time}, {"Settlement  Date.3", type text}}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Changed Type",{{"Settlement  Date.1", "Settlement  Date"}, {"Settlement  Date.2", "Settlement Time"}}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Renamed Columns1",{"Settlement  Date.3"}),
+				    #"Added Custom1" = Table.AddColumn(#"Removed Columns1", "Settlement Year", each Date.Year([Settlement  Date])),
+				    #"Added Custom2" = Table.AddColumn(#"Added Custom1", "Settlement Month", each Date.MonthName([Settlement  Date])),
+				    #"Added Custom3" = Table.AddColumn(#"Added Custom2", "Month Number", each Date.Month([Settlement  Date])),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Added Custom3",{{"Month Number", Int64.Type}}),
+				    #"Added Custom4" = Table.AddColumn(#"Changed Type1", "Hour", each Time.ToText([Settlement Time], "HH:00")),
+				    #"Removed Columns2" = Table.RemoveColumns(#"Added Custom4",{"Hour"}),
+				    #"Added Custom5" = Table.AddColumn(#"Removed Columns2", "Custom", each DateTime.Time([#"Settlement  Date - Copy"])),
+				    #"Duplicated Column1" = Table.DuplicateColumn(#"Added Custom5", "Custom", "Custom - Copy"),
+				    #"Split Column by Delimiter1" = Table.SplitColumn(Table.TransformColumnTypes(#"Duplicated Column1", {{"Custom - Copy", type text}}, "en-AU"), "Custom - Copy", Splitter.SplitTextByDelimiter(":", QuoteStyle.Csv), {"Custom - Copy.1", "Custom - Copy.2"}),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Split Column by Delimiter1",{{"Custom - Copy.1", Int64.Type}, {"Custom - Copy.2", type text}}),
+				    #"Split Column by Delimiter2" = Table.SplitColumn(#"Changed Type2", "Custom - Copy.2", Splitter.SplitTextByDelimiter(" ", QuoteStyle.Csv), {"Custom - Copy.2.1", "Custom - Copy.2.2"}),
+				    #"Changed Type3" = Table.TransformColumnTypes(#"Split Column by Delimiter2",{{"Custom - Copy.2.1", Int64.Type}, {"Custom - Copy.2.2", type text}}),
+				    #"Removed Columns3" = Table.RemoveColumns(#"Changed Type3",{"Custom - Copy.2.1"}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Removed Columns3",{{"Custom - Copy.2.2", "AM/PM"}, {"Custom - Copy.1", "Time of Day"}}),
+				    #"Added Custom6" = Table.AddColumn(#"Renamed Columns2", "Custom.1", each Time.Hour([Settlement Time])),
+				    #"Renamed Columns3" = Table.RenameColumns(#"Added Custom6",{{"Custom.1", "Time 2"}}),
+				    #"Added Custom7" = Table.AddColumn(#"Renamed Columns3", "Custom.2", each Time.ToText([Settlement Time], "HH:00")),
+				    #"Removed Columns4" = Table.RemoveColumns(#"Added Custom7",{"Custom.2"}),
+				    #"Added Custom8" = Table.AddColumn(#"Removed Columns4", "Custom.1", each Time.Hour([Settlement Time])),
+				    #"Removed Columns5" = Table.RemoveColumns(#"Added Custom8",{"Custom.1"}),
+				    #"Duplicated Column2" = Table.DuplicateColumn(#"Removed Columns5", "Settlement  Date", "Settlement  Date - Copy.1"),
+				    #"Changed Type4" = Table.TransformColumnTypes(#"Duplicated Column2",{{"Settlement  Date - Copy.1", type datetime}}),
+				    #"Removed Columns6" = Table.RemoveColumns(#"Changed Type4",{"Settlement  Date - Copy.1"}),
+				    #"Added Custom9" = Table.AddColumn(#"Removed Columns6", "Custom.4", each Time.Hour(Time.From([Settlement Time]))),
+				    #"Removed Columns7" = Table.RemoveColumns(#"Added Custom9",{"Custom.4"})
+				in
+				    #"Removed Columns7"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

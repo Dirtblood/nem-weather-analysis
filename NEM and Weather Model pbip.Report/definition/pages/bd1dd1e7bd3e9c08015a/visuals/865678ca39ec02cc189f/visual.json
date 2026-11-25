@@ -1,0 +1,553 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "865678ca39ec02cc189f",
+  "position": {
+    "x": 16.466607480862326,
+    "y": 419.89849076198931,
+    "z": 2000,
+    "height": 596.91452118125926,
+    "width": 1877.1932528183052,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dim_Date"
+                    }
+                  },
+                  "Property": "FullDate"
+                }
+              },
+              "queryRef": "Dim_Date.FullDate.Variation.Date Hierarchy.Month",
+              "nativeQueryRef": "FullDate Month",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BOM Bris Rainfall"
+                    }
+                  },
+                  "Property": "Total Bris Rainfall"
+                }
+              },
+              "queryRef": "BOM Daily Rainfall.Total Rainfall",
+              "nativeQueryRef": "Total Rainfall"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Price and Demand QLD"
+                    }
+                  },
+                  "Property": "Total RRP"
+                }
+              },
+              "queryRef": "Price and Demand QLD.Total RRP",
+              "nativeQueryRef": "Total RRP"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BOM Bris Rainfall"
+                    }
+                  },
+                  "Property": "Avg Daily BNE Rainfall"
+                }
+              },
+              "queryRef": "BOM Daily Rainfall.Average Daily Rainfall",
+              "nativeQueryRef": "Average Daily Rainfall"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Daily Min Temp"
+                    }
+                  },
+                  "Property": "Average Min Temp"
+                }
+              },
+              "queryRef": "Daily Min Temp.Average Min Temp",
+              "nativeQueryRef": "Average Min Temp"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BOM Daily Max Temp"
+                    }
+                  },
+                  "Property": "Average Max Temp"
+                }
+              },
+              "queryRef": "BOM Daily Max Temp.Average Max Temp",
+              "nativeQueryRef": "Average Max Temp"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Price and Demand QLD"
+                    }
+                  },
+                  "Property": "Average RRP"
+                }
+              },
+              "queryRef": "Price and Demand QLD.Average RRP",
+              "nativeQueryRef": "Average RRP"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BOM Bris Rainfall"
+                    }
+                  },
+                  "Property": "Average RRP on Dry Days"
+                }
+              },
+              "queryRef": "BOM Daily Rainfall.Average RRP on Dry Days",
+              "nativeQueryRef": "Average RRP on Dry Days"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BOM Bris Rainfall"
+                    }
+                  },
+                  "Property": "Average RRP on Rainy Days"
+                }
+              },
+              "queryRef": "BOM Daily Rainfall.Average RRP on Rainy Days",
+              "nativeQueryRef": "Average RRP on Rainy Days"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BOM Bris Rainfall"
+                    }
+                  },
+                  "Property": "Avg Demand on Dry Days"
+                }
+              },
+              "queryRef": "BOM Daily Rainfall.Avg Demand on Dry Days",
+              "nativeQueryRef": "Avg Demand on Dry Days"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BOM Bris Rainfall"
+                    }
+                  },
+                  "Property": "Avg Demand on Rainy Days"
+                }
+              },
+              "queryRef": "BOM Daily Rainfall.Avg Demand on Rainy Days",
+              "nativeQueryRef": "Avg Demand on Rainy Days"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BOM Bris Rainfall"
+                    }
+                  },
+                  "Property": "RRP Difference (Rainy - Dry)"
+                }
+              },
+              "queryRef": "BOM Daily Rainfall.RRP Difference (Rainy - Dry)",
+              "nativeQueryRef": "RRP Difference (Rainy - Dry)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BOM Bris Rainfall"
+                    }
+                  },
+                  "Property": "Total BNE Rainy Days"
+                }
+              },
+              "queryRef": "BOM Daily Rainfall.Total Rainy Days",
+              "nativeQueryRef": "Total Rainy Days"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "BOM Bris Rainfall"
+                  }
+                },
+                "Property": "Avg Demand on Rainy Days"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "114.81605216972861D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "BOM Daily Rainfall.Total Rainfall"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 4,
+                      "Percent": -0.5
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "gridHorizontal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridVertical": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridVerticalWeight": {
+              "expr": {
+                "Literal": {
+                  "Value": "3D"
+                }
+              }
+            },
+            "gridVerticalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.3
+                    }
+                  }
+                }
+              }
+            },
+            "gridHorizontalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.2
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "d4ff0cffe7b17424fb76",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Dim_Date"
+              }
+            },
+            "Property": "FullDate"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "64f772fd836ff1e545d0",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "BOM Bris Rainfall"
+              }
+            },
+            "Property": "Total Bris Rainfall"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "ca3d12d612ab1a9bb72f",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Price and Demand QLD"
+              }
+            },
+            "Property": "Total RRP"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "17996ebeaf9e50dcdf53",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "BOM Bris Rainfall"
+              }
+            },
+            "Property": "Avg Daily BNE Rainfall"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "cbac506d37ee26eac778",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Daily Min Temp"
+              }
+            },
+            "Property": "Average Min Temp"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "793d531a3afb4f9471af",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "BOM Daily Max Temp"
+              }
+            },
+            "Property": "Average Max Temp"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "3e4f0a640176b6a8a625",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Price and Demand QLD"
+              }
+            },
+            "Property": "Average RRP"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "93f8750a054a74ecc38d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "BOM Bris Rainfall"
+              }
+            },
+            "Property": "Average RRP on Dry Days"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "3180e485404727d75130",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "BOM Bris Rainfall"
+              }
+            },
+            "Property": "Average RRP on Rainy Days"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "09ef92f43ce565a6ca65",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "BOM Bris Rainfall"
+              }
+            },
+            "Property": "Avg Demand on Dry Days"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "a714ea2677bd297dd6fc",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "BOM Bris Rainfall"
+              }
+            },
+            "Property": "Avg Demand on Rainy Days"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "5b991c6d821e416ef650",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "BOM Bris Rainfall"
+              }
+            },
+            "Property": "RRP Difference (Rainy - Dry)"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "31d3e49bec86e0a2b9f3",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "BOM Bris Rainfall"
+              }
+            },
+            "Property": "Total BNE Rainy Days"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

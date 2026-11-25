@@ -1,0 +1,145 @@
+table 'Daily Min Temp'
+	lineageTag: 0a492ef8-3ac5-4914-a66f-69ead39cbeb6
+
+	measure 'Average Min Temp' = AVERAGE('Daily Min Temp'[Min Temp Degrees])
+		lineageTag: 59178232-cf57-4034-995e-0187dfa57435
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Temp Range' =
+			
+			[Average Max Temp] - [Average Min Temp]
+		lineageTag: 273cf8be-a69c-4ff6-84f2-397a2e572c79
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Average Temp (Mid point)' =
+			
+			DIVIDE([Average Max Temp] + [Average Min Temp], 2)
+		lineageTag: b4526fc6-3332-407a-a730-cb46178e710f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cold Days' =
+			
+			CALCULATE(
+			    COUNTROWS('Daily Min Temp'),
+			    'Daily Min Temp'[Min Temp Degrees] <= 10)
+		formatString: 0
+		lineageTag: 7ce32742-9255-4f96-a2c4-cde513f83b72
+
+	measure 'Min Temperature' =
+			
+			MIN('Daily Min Temp'[Min Temp Degrees])
+		lineageTag: 39d3e693-d581-459e-b941-7a3ad509c3f7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Product Code'
+		dataType: string
+		lineageTag: 6fcd49ca-7f06-4897-8e0b-68706aa1fe09
+		summarizeBy: none
+		sourceColumn: Product Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Bureau Metrology Station Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 1304524a-8c49-42a2-948c-3e7944e697f2
+		summarizeBy: sum
+		sourceColumn: Bureau Metrology Station Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 51506fb9-deb7-42f8-8fc0-160dbc16c9e1
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		formatString: 0
+		lineageTag: 709e6ae1-4748-4151-8a1d-27c3c0b3751b
+		summarizeBy: sum
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		dataType: int64
+		formatString: 0
+		lineageTag: 2dcf0668-e01e-4fb3-a768-8c31ff66f0dd
+		summarizeBy: sum
+		sourceColumn: Day
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Min Temp Degrees'
+		dataType: double
+		lineageTag: 32d0ddea-686a-41a9-889c-04cd487d55d8
+		summarizeBy: sum
+		sourceColumn: Min Temp Degrees
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Days Of Accumulation Min Temp'
+		dataType: int64
+		formatString: 0
+		lineageTag: 8b4b3c92-4782-42f0-b3dc-1a399f60bd10
+		summarizeBy: sum
+		sourceColumn: Days Of Accumulation Min Temp
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quality
+		dataType: string
+		lineageTag: 10dbda76-da37-423d-9710-53c65de2a565
+		summarizeBy: none
+		sourceColumn: Quality
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: f31d4e3f-f954-4b2d-a10e-06dd02a4e09b
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Month Name'
+		dataType: string
+		lineageTag: bc7f7621-b6d6-4e32-afb7-98a81cd79897
+		summarizeBy: none
+		sourceColumn: Month Name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Daily Min Temp' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("NICSLAPTOP"),
+				    Energy_Market_Intelligence = Source{[Name="Energy_Market_Intelligence"]}[Data],
+				    #"dbo_Daily Min Temp" = Energy_Market_Intelligence{[Schema="dbo",Item="Daily Min Temp"]}[Data],
+				    #"Renamed Columns" = Table.RenameColumns(#"dbo_Daily Min Temp",{{"Bureau_of_Meteorology_station_number", "Bureau Metrology Station Number"}, {"Product_code", "Product Code"}, {"Minimum_temperature_Degree_C", "Min Temp Degrees"}, {"Days_of_accumulation_of_minimum_temperature", "Days Of Accumulation Min Temp"}}),
+				    #"Added Custom" = Table.AddColumn(#"Renamed Columns", "Date", each #date([Year], [Month], [Day])),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added Custom",{{"Date", type date}}),
+				    #"Added Custom1" = Table.AddColumn(#"Changed Type", "Month Name", each Date.MonthName([Date]))
+				in
+				    #"Added Custom1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

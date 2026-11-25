@@ -1,0 +1,221 @@
+table 'BOM GC Rainfall'
+	lineageTag: 063ece1e-c06f-49b4-a968-27a19dd5f17a
+
+	measure 'Total GC Rainfall' = SUM('BOM GC Rainfall'[Rainfall amount millimetres])
+		lineageTag: 5facbc45-09b1-4f81-a1a3-fad076399fd6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Average Daily Rainfall GC' =
+			
+			AVERAGEX(
+			    VALUES(Dim_Date[FullDate]),
+			    [Total GC Rainfall]
+			)
+		lineageTag: 6ad40774-2fbf-44e9-ac04-6b423f013b9c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total GC Rainy Days' =
+			
+			CALCULATE(
+			    COUNTROWS('BOM GC Rainfall'),
+			    'BOM GC Rainfall'[Rainfall amount millimetres] > 0
+			)
+		formatString: 0
+		lineageTag: 2c7ec164-7886-4469-aa94-a3b8ffd9bafa
+
+	measure '% Rainy Days GC' =
+			
+			DIVIDE(
+			    [Total GC Rainy Days],
+			    COUNTROWS(Dim_Date)
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: d88132b9-1e4b-4321-aa36-8cdde566ba69
+
+	measure 'Average RRP on Rainy Days GC' =
+			
+			CALCULATE(
+			    [Average RRP],
+			    FILTER(Dim_Date, [Total GC Rainfall] > 0)
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: c49a8574-b588-4e44-9531-e2c64b2fb76b
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Average RRP on Dry Days GC' =
+			
+			CALCULATE(
+			    [Average RRP],
+			    FILTER(Dim_Date, [Total GC Rainfall] = 0 || ISBLANK([Total GC Rainfall]))
+			)
+		lineageTag: 735fd6c6-604f-4e99-921a-b3478d9c7ce5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'RRP Difference BNE VS GC (Rainy - Dry)' =
+			
+			[Average RRP on Rainy Days GC] - [Average RRP on Dry Days GC]
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: f11a773b-2e56-473c-9dd3-42a3425100ae
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'RRP Difference GC (Rainy - Dry)' =
+			
+			[Average RRP on Rainy Days GC] - [Average RRP on Dry Days GC]
+		lineageTag: 4fbede76-fcb8-4fce-b9e8-9356a171101e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Demand on Rainy Days GC' =
+			
+			CALCULATE(
+			    [Average Demand],
+			    FILTER(Dim_Date, [Total GC Rainfall] > 0)
+			)
+		lineageTag: 044dff39-9666-40d7-b44f-c5cc0110894d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Demand on Dry Days GC' =
+			
+			CALCULATE(
+			    [Average Demand],
+			    FILTER(Dim_Date, [Total GC Rainfall] = 0 || ISBLANK([Total GC Rainfall]))
+			)
+		lineageTag: 58dc8097-5534-479a-814d-0adf106821ea
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Daily GC Rainfall' = AVERAGE('BOM GC Rainfall'[Rainfall amount millimetres])
+		lineageTag: dcabb186-6be7-4c55-bea8-69b0e5f4bb79
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Product code'
+		dataType: string
+		lineageTag: ee8c13e0-b453-4048-939c-ae234dd8ed3c
+		summarizeBy: none
+		sourceColumn: Product code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Bureau of Meteorology Station Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 6839b789-e49a-4553-b145-23fbb5dd4dda
+		summarizeBy: sum
+		sourceColumn: Bureau of Meteorology Station Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 5dbb1656-e271-460d-8c55-2aa2c1694f66
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		formatString: 0
+		lineageTag: 43e4c22c-af41-4b43-9a20-ef91104f4d3a
+		summarizeBy: sum
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		dataType: int64
+		formatString: 0
+		lineageTag: 9832aac7-fca8-454f-831b-2d5d7a721b1f
+		summarizeBy: sum
+		sourceColumn: Day
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Rainfall amount millimetres'
+		dataType: double
+		lineageTag: 0c64ddfc-8493-4d4d-a8a2-9ba54adfe858
+		summarizeBy: sum
+		sourceColumn: Rainfall amount millimetres
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Period over rainfall was measured days'
+		dataType: int64
+		formatString: 0
+		lineageTag: 056f38cc-f23c-4032-8cb1-2b797ce6a966
+		summarizeBy: sum
+		sourceColumn: Period over rainfall was measured days
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quality
+		dataType: string
+		lineageTag: c0f87295-7955-4843-9256-612ea9fa17f9
+		summarizeBy: none
+		sourceColumn: Quality
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 4a5f49e6-22a7-4f1f-b967-41fb2f738da8
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: e66c77e8-3f0a-445c-95f1-89bac72d4c7c
+			defaultHierarchy: LocalDateTable_0afb6d44-99a6-4a71-a334-8f1939f6c8a0.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Station
+		dataType: string
+		lineageTag: 3e04bab1-af78-4f5f-9a1f-cecb8b712bb2
+		summarizeBy: none
+		sourceColumn: Station
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		dataType: string
+		lineageTag: ea14f840-ce72-4231-8338-f93e21eef5fc
+		summarizeBy: none
+		sourceColumn: Month Name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'BOM GC Rainfall' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("NICSLAPTOP"),
+				    Energy_Market_Intelligence = Source{[Name="Energy_Market_Intelligence"]}[Data],
+				    #"dbo_BOM Rainfall GC" = Energy_Market_Intelligence{[Schema="dbo",Item="BOM Rainfall GC"]}[Data],
+				    #"Renamed Columns" = Table.RenameColumns(#"dbo_BOM Rainfall GC",{{"Product_code", "Product code"}, {"Bureau_of_Meteorology_station_number", "Bureau of Meteorology Station Number"}, {"Rainfall_amount_millimetres", "Rainfall amount millimetres"}, {"Period_over_which_rainfall_was_measured_days", "Period over rainfall was measured days"}}),
+				    #"Added Custom" = Table.AddColumn(#"Renamed Columns", "Date", each #date([Year], [Month], [Day])),
+				    #"Added Custom1" = Table.AddColumn(#"Added Custom", "Station", each "Gold Coast"),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added Custom1",{{"Date", type date}}),
+				    #"Added Custom2" = Table.AddColumn(#"Changed Type", "Month Name", each Date.MonthName([Date])),
+				    #"Removed Duplicates" = Table.Distinct(#"Added Custom2", {"Rainfall amount millimetres"}),
+				    #"Removed Errors" = Table.RemoveRowsWithErrors(#"Removed Duplicates", {"Rainfall amount millimetres"})
+				in
+				    #"Removed Errors"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

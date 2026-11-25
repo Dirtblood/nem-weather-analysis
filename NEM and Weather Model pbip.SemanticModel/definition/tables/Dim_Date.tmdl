@@ -1,0 +1,117 @@
+table Dim_Date
+	lineageTag: aad69e8e-583d-46b2-baf5-92298a0ea640
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: db9ea3bb-1559-4d74-b99c-52582d7ec2a1
+		summarizeBy: count
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column FullDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 4e27b4a2-934d-47e3-85d7-bc657c460f8a
+		summarizeBy: none
+		sourceColumn: FullDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 3dca10f3-524f-4cdd-b3ea-c698beee9434
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = User
+
+	column Month
+		dataType: int64
+		formatString: 0
+		lineageTag: 72a6e8de-d9bb-4f82-95fc-206baf5cf48e
+		summarizeBy: sum
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName
+		dataType: string
+		lineageTag: a3a2e3b2-35be-4b0d-980d-5220c985b693
+		summarizeBy: none
+		sourceColumn: MonthName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: 26f6dc5f-ff37-4638-9292-65d548e445b2
+		summarizeBy: sum
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfMonth
+		dataType: int64
+		formatString: 0
+		lineageTag: 7d5f5e94-a5b2-461e-92cd-ee138baaa750
+		summarizeBy: sum
+		sourceColumn: DayOfMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfWeek
+		dataType: int64
+		formatString: 0
+		lineageTag: b6c8436e-8c0f-478f-82fe-6107cb1bcb8c
+		summarizeBy: sum
+		sourceColumn: DayOfWeek
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayName
+		dataType: string
+		lineageTag: 0161be7a-ff0b-4479-83ce-5aa049db7455
+		summarizeBy: none
+		sourceColumn: DayName
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsWeekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d6a590db-a895-4dee-9724-13274005a74f
+		summarizeBy: none
+		sourceColumn: IsWeekend
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		dataType: string
+		lineageTag: 47cd981b-efeb-43f9-8b6f-4edb1c785e6f
+		summarizeBy: none
+		sourceColumn: Month Number
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Date = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("NICSLAPTOP"),
+				    Energy_Market_Intelligence = Source{[Name="Energy_Market_Intelligence"]}[Data],
+				    dbo_Dim_Date = Energy_Market_Intelligence{[Schema="dbo",Item="Dim_Date"]}[Data],
+				    #"Added Custom" = Table.AddColumn(dbo_Dim_Date, "Month Number", each Date.Month([FullDate])),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Added Custom",{"DateKey", "Month Number", "FullDate", "Year", "Month", "MonthName", "Quarter", "DayOfMonth", "DayOfWeek", "DayName", "IsWeekend"})
+				in
+				    #"Reordered Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

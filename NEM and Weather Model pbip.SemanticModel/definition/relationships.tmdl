@@ -1,0 +1,42 @@
+relationship bcf2a07e-e279-4f3d-a684-b6984f3744df
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Price and Demand QLD'.'Settlement  Date - Copy'
+	toColumn: LocalDateTable_482ddc94-31f0-4b7e-883f-654e7f61c9a7.Date
+
+relationship 39686f1e-ffc8-dcf4-0f67-9e815a716b8a
+	fromColumn: 'Price and Demand QLD'.'Settlement  Date'
+	toColumn: Dim_Date.FullDate
+
+relationship ce387d34-88c1-123f-889c-6b90cc17d802
+	fromColumn: 'BOM Daily Max Temp'.Date
+	toColumn: Dim_Date.FullDate
+
+relationship e8c3c288-c8db-c223-2844-832567a7c2dc
+	fromColumn: 'Daily Min Temp'.Date
+	toColumn: Dim_Date.FullDate
+
+relationship 27f89a41-073c-487e-a4fd-71f96fdf5271
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'BOM Bris Rainfall'.Date
+	toColumn: LocalDateTable_78ecfd37-0e38-4f9e-ac3a-745d19e7a5f0.Date
+
+relationship 917f0e6f-7eb0-42c2-9531-71f0a4e1f6fd
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'BOM Bris Rainfall'.'Date - Copy'
+	toColumn: LocalDateTable_d9a6a784-b205-4ab2-bfb7-240b44205d38.Date
+
+relationship b7558447-17d6-cc39-57ea-437090947272
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: Dim_Date.FullDate
+	toColumn: 'BOM Bris Rainfall'.'Date - Copy'
+
+relationship bece9f08-732e-1df6-007d-3612ecb7769f
+	fromColumn: Dim_Date.FullDate
+	toColumn: 'BOM GC Rainfall'.Date
+
+relationship e66c77e8-3f0a-445c-95f1-89bac72d4c7c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'BOM GC Rainfall'.Date
+	toColumn: LocalDateTable_0afb6d44-99a6-4a71-a334-8f1939f6c8a0.Date
+
